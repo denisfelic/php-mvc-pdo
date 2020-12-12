@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Denis\\MVC\\": "src/"
+        }
+    },
+    "require": {
+        "squizlabs/php_codesniffer": "^3.5",
+      "ext-pdo": "*"
+    }
+}
