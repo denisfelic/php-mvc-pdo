@@ -26,6 +26,9 @@ $cursos = $usuario->getCursos();
         <div class="jumbotron">
             <h1>Listar cursos</h1>
         </div>
+        <div>
+            <a class="btn btn-primary" href="/cursos/novo">Novo Curso</a>
+        </div>
         <ul class="list-group">
             <?php foreach ($cursos as $curso) : ?>
                 <li class="list-group-item">
