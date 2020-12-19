@@ -17,7 +17,8 @@ class HttpListener
      */
     public function listen(string $requestUri, string $httpMethod, array $rotas)
     {
-        $this->httpRequest($requestUri, $rotas, $httpMethod);
+        $cleanUri = $this->uriCleaner($requestUri);
+        $this->httpRequest($cleanUri, $rotas, $httpMethod);
     }
 
     /**
@@ -61,5 +62,18 @@ class HttpListener
          */
         $controller = new $controllerClass();
         $controller->$controllerMethod();
+    }
+
+    /**
+     * @param string $requestUri
+     * @return false|string
+     */
+    private function uriCleaner(string $requestUri)
+    {
+        $cleanUri = $requestUri;
+        if (strpos($requestUri, '?')) {
+            $cleanUri = strstr($requestUri, '?', true);
+        }
+        return $cleanUri;
     }
 }
