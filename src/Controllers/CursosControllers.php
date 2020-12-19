@@ -49,7 +49,7 @@ class CursosControllers implements Controller
         echo $descricao;
         $curso = new Curso(null, $descricao, $this->loogedUser->getId());
         $this->cursoRepository->save($curso);
-        
+
         header('Location: /cursos', true, 302);
 
     }
@@ -66,7 +66,8 @@ class CursosControllers implements Controller
 
     public function destroy()
     {
-        // TODO: Implement destroy() method.
+        echo 'you are here';
+        die();
     }
 
     public function create()
