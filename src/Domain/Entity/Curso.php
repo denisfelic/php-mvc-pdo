@@ -19,17 +19,23 @@ class Curso
      */
     private string $descricao;
 
+    /**
+     * @var int 
+     */
+    private int $user_id;
 
 
     /**
      * Curso constructor.
      * @param int|null $id
      * @param string $descricao
+     * @param int $user_id
      */
-    public function __construct(?int $id, string $descricao)
+    public function __construct(?int $id, string $descricao, int $user_id)
     {
         $this->id = $id;
         $this->descricao = $descricao;
+        $this->user_id = $user_id;
     }
 
 
@@ -47,5 +53,13 @@ class Curso
     public function setDescricao(string $descricao): void
     {
         $this->descricao = $descricao;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
     }
 }

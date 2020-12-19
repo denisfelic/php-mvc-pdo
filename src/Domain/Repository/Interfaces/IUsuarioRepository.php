@@ -6,15 +6,12 @@ namespace Denis\MVC\Domain\Repository\Interfaces;
 
 use Denis\MVC\Domain\Entity\Usuario;
 
-/**
- * Interface IUsuarioRepository
- * @package Denis\MVC\Domain\Repository\Interfaces
- */
+
 interface IUsuarioRepository 
 {
 
     /**
-     * @return Usuario[]
+     * @return array
      */
     public function all(): array;
 
@@ -22,8 +19,9 @@ interface IUsuarioRepository
      * @param Usuario $usuario
      * @return bool
      */
-    public function save(Usuario  $usuario): bool;
+    public function save(Usuario $usuario): bool;
 
+    
     public function getOne(int $id) : Usuario;
     /**
      * @param Usuario $usuario

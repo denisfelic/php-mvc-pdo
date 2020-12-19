@@ -57,6 +57,10 @@ class UsuarioRepositoryPDO implements IUsuarioRepository
         return false;
     }
 
+    /**
+     * @param array $usuarios
+     * @return bool
+     */
     public function insertGroup(array $usuarios): bool
     {
         // TODO: Implement insertGroup() method.
@@ -71,7 +75,8 @@ class UsuarioRepositoryPDO implements IUsuarioRepository
     {
         $query = 'SELECT usuarios.id, usuarios.email, usuarios.senha,
                    c.id AS curso_id,
-                   c.descricao
+                   c.descricao,
+                   c.user_id
             FROM usuarios
                      JOIN cursos c
                           ON usuarios.id = c.user_id
@@ -97,7 +102,7 @@ class UsuarioRepositoryPDO implements IUsuarioRepository
                 $user = new Usuario($data["id"], $data["email"], $data["senha"], null);
                 $addedUser = true;
             }
-            array_push($cursos, new Curso($data["curso_id"], $data["descricao"]));
+            array_push($cursos, new Curso($data["curso_id"], $data["descricao"], $data['user_id']));
         }
         $user->setCursos($cursos);
         return $user;

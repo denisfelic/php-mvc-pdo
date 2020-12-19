@@ -1,36 +1,31 @@
 <?php
 
+use Denis\MVC\Helpers\HttpListener;
 
-$rotas = [
-    "/cursos" => 'listar-cursos.php',
-    "/cursos/novo" => 'novo-curso.php'
-];
-verificaRota($rotas);
+require_once __DIR__ . '/../vendor/autoload.php';
 
-/**
- * @param array $rotas
- */
-function verificaRota(array $rotas): void
-{
-    $rotaParaExecutar = null;
-    foreach ($rotas as $rota => $arquivo) {
-        if ($_SERVER["REQUEST_URI"] === $rota) {
-            $rotaParaExecutar = $arquivo;
-            break;
-        }
-    }
-    executaRota($rotaParaExecutar);
-}
+$rotas = require_once __DIR__ . '/../config/routes.php';
+
+$uri = $_SERVER['REQUEST_URI'];
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$validMethod = ['GET', 'POST', 'PUT', 'DELETE'];
+
+methodIsValid($httpMethod, $validMethod);
+
+$httpListener = new HttpListener();
+$httpListener->listen($uri, $httpMethod, $rotas);
+
+
+
 
 /**
- * @param $rotaParaExecutar
+ * @param $httpMethod
+ * @param array $validMethod
  */
-function executaRota($rotaParaExecutar): void
+function methodIsValid($httpMethod, array $validMethod): void
 {
-    if (is_null($rotaParaExecutar)) {
-        echo "Erro 404!<br>Rota:  {$rotaParaExecutar} não encontrada!";
+    if (!in_array($httpMethod, $validMethod)) {
+        echo 'Oops! erro 404';
         die();
     }
-    require_once __DIR__ . '/' . $rotaParaExecutar;
 }
-
