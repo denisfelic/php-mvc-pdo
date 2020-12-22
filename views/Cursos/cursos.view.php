@@ -9,7 +9,10 @@ include_once __DIR__ . '/../layout/header.view.php';
             <li class="list-group-item">
                 <div class="d-flex justify-content-between">
                     <?= $curso->getDescricao(); ?>
-                    <a class="btn btn-danger" href="/cursos/delete?id=<?= $curso->getId() ?>">Deletar</a>
+                    <div>
+                        <a class="btn btn-primary" href="/cursos/update?id=<?= $curso->getId() ?>">Editar</a>
+                        <a class="btn btn-danger" href="/cursos/delete?id=<?= $curso->getId() ?>">Deletar</a>
+                    </div>
                 </div>
             </li>
         <?php endforeach; ?>

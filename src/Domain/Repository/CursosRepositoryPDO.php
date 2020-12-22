@@ -56,17 +56,42 @@ class CursosRepositoryPDO implements ICursoRepository
 
     public function getOne(int $id): Curso
     {
-        // TODO: Implement getOne() method.
+        try {
+            $query = 'SELECT * FROM cursos WHERE id = :id';
+            $stmt = $this->pdoConnection->prepare($query);
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            return $this->hydrateCurso($stmt);
+        } catch (PDOException | Exception $ex) {
+            // TODO : Implementar error
+        }
     }
 
-    public function remove(Curso $curso): bool
+    public function remove(int $idCurso): bool
     {
-        // TODO: Implement remove() method.
+        try {
+            $query = 'DELETE FROM `cursos` WHERE `cursos`.`id` = :id';
+            $stmt = $this->pdoConnection->prepare($query);
+            $stmt->bindValue(':id', $idCurso);
+            $stmt->execute();
+            return true;
+        } catch (PDOException | Exception $ex) {
+            return false;
+        }
     }
 
     public function update(Curso $curso): bool
     {
-        // TODO: Implement update() method.
+        try {
+            $query = 'UPDATE `cursos` SET `descricao` = :descricao WHERE `cursos`.`id` = :id;';
+            $stmt = $this->pdoConnection->prepare($query);
+            $stmt->bindValue(':descricao', $curso->getDescricao());
+            $stmt->bindValue(':id', $curso->getId());
+            $stmt->execute();
+            return true;
+        } catch (PDOException | Exception $ex) {
+            return false;
+        }
     }
 
     public function insertGroup(array $cursos): bool
@@ -86,5 +111,11 @@ class CursosRepositoryPDO implements ICursoRepository
             array_push($cursos, new Curso($data["id"], $data["descricao"], $data['user_id']));
         }
         return $cursos;
+    }
+
+    private function hydrateCurso(PDOStatement $stmt): Curso
+    {
+        $cursoData = $stmt->fetch();
+        return new Curso($cursoData["id"], $cursoData["descricao"], $cursoData['user_id']);
     }
 }

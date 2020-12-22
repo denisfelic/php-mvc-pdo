@@ -46,7 +46,9 @@ class CursosControllers implements Controller
     public function store()
     {
         $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING);
-        echo $descricao;
+        if ($descricao === false) {
+            // TODO: Implementar erro
+        }
         $curso = new Curso(null, $descricao, $this->loogedUser->getId());
         $this->cursoRepository->save($curso);
 
@@ -61,13 +63,45 @@ class CursosControllers implements Controller
 
     public function update()
     {
-        // TODO: Implement update() method.
+        $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING);
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
+        
+        $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
+        if (!$descricao || !$id) { 
+            // TODO: Implementar erro
+        }
+        
+        $curso = new Curso($id, $descricao, $this->loogedUser->getId());
+        if(!$this->cursoRepository->update($curso)){
+            echo  'erro 500 - Erro ao atualizar curso, tente novamente.';
+            return;
+        }
+        
+        header('Location: /cursos');
+        
+    }
+
+    public function edit()
+    {
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        if (!$id) {
+            header('Location: /cursos', true, 302);
+            return;
+        }
+        $curso = $this->cursoRepository->getOne($id);
+        $titulo = 'Editar Curso';
+        require_once __DIR__ . '/../../views/Cursos/editarCurso.view.php';
     }
 
     public function destroy()
     {
-        echo 'you are here';
-        die();
+        $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        if (!$id) {
+            header('Location: /cursos', true, 302);
+            return;
+        }
+        $this->cursoRepository->remove($id);
+        header('Location: /cursos', true, 302);
     }
 
     public function create()

@@ -24,10 +24,10 @@ interface ICursoRepository
     public function getOne(int $id): Curso;
 
     /**
-     * @param Curso $curso
+     * @param int $idCurso
      * @return bool
      */
-    public function remove(Curso $curso): bool;
+    public function remove(int $idCurso): bool;
 
     /**
      * @param Curso $curso
