@@ -43,6 +43,8 @@ class CursosControllers implements Controller
         require_once __DIR__ . '/../../views/Cursos/cursos.view.php';
     }
 
+
+
     public function store()
     {
         $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING);
@@ -53,32 +55,43 @@ class CursosControllers implements Controller
         $this->cursoRepository->save($curso);
 
         header('Location: /cursos', true, 302);
-
     }
 
+    // API
     public function show()
     {
-        // TODO: Implement show() method.
+        $userId = $this->loogedUser->getId();
+        $cursosData = $this->cursoRepository->all();
+        $cursos = [];
+
+        foreach ($cursosData as $curso) {
+            if ($curso->getUserId() === $userId) {
+                array_push($cursos, $curso);
+            }
+        }
+
+        header("Access-Control-Allow-Origin: *"); //this allows cors
+        header('Content-Type: application/json');
+        echo json_encode($cursos);
     }
 
     public function update()
     {
         $descricao = filter_input(INPUT_POST, 'descricao', FILTER_SANITIZE_STRING);
         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
-        
+
         $id = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_STRING);
-        if (!$descricao || !$id) { 
+        if (!$descricao || !$id) {
             // TODO: Implementar erro
         }
-        
+
         $curso = new Curso($id, $descricao, $this->loogedUser->getId());
-        if(!$this->cursoRepository->update($curso)){
+        if (!$this->cursoRepository->update($curso)) {
             echo  'erro 500 - Erro ao atualizar curso, tente novamente.';
             return;
         }
-        
+
         header('Location: /cursos');
-        
     }
 
     public function edit()
