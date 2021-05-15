@@ -2,11 +2,13 @@
 
 namespace Denis\MVC\Domain\Entity;
 
+use JsonSerializable;
+
 /**
  * @Entity
  * @Table(name="cursos")
  */
-class Curso
+class Curso implements JsonSerializable
 {
     /**
      * @Id
@@ -39,11 +41,13 @@ class Curso
     }
 
 
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
-    
+
 
     public function getDescricao(): string
     {
@@ -61,5 +65,13 @@ class Curso
     public function getUserId(): int
     {
         return $this->user_id;
+    }
+
+
+    public function jsonSerialize()
+    {
+        return [
+            'description' => $this->descricao,
+        ];
     }
 }
