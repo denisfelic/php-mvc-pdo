@@ -3,9 +3,12 @@
 ### Setup
 
 * Install PHP | Tested in 7.4^
+* Install Composer or Composer.phar
+* Run Composer install
 * Install Mysql | Optional - Xampp
-* First run the Sql script in MYSQL, or other (need alterations)
 * Config your MySQL access data in "src\Infra\Config\CreateConnectionPDO.php" file
+* Create a database according to your config above "
+* Run the .sql in root script in your MYSQL, or other driver (need code alterations)
 
 
 ### Step 2: Run the Server on localhost
@@ -18,3 +21,8 @@ php -S localhost:80  -t public/
 
 
 ### Step 3: Modify the code according to you need and business logic
+
+
+
+### Routes
+- Routes can be defined in config/routes.php
