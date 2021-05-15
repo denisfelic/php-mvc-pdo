@@ -97,6 +97,7 @@ class CursosRepositoryPDO implements ICursoRepository
     public function insertGroup(array $cursos): bool
     {
         // TODO: Implement insertGroup() method.
+        return false;
     }
 
     /**
